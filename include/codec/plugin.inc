@@ -1,5 +1,6 @@
-USE_CODEC_DEC ?= "0"
-USE_CODEC_ENC ?= "0"
+# We want to enable all as default
+USE_CODEC_DEC ?= "1"
+USE_CODEC_ENC ?= "1"
 USE_CODEC_DEC_H265 ?= "1"
 
 USE_CODEC_DEC_r9a07g044c = "0"

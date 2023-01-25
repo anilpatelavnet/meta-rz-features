@@ -1,6 +1,10 @@
 # We want to enable all as default
-USE_RENESAS_GLES ?= "0"
-USE_RENESAS_OPENCL_rzg2l ?= "0"
+RENESAS_GRAPHIC = "${@os.path.isdir("${LAYERDIR}/recipes-graphics/")}"
+#USE_RENESAS_GLES ?= "${@oe.utils.conditional("RENESAS_GRAPHIC", "True", '1', '0', d)}"
+#USE_RENESAS_OPENCL ?= "${@oe.utils.conditional("RENESAS_GRAPHIC", "True", '1', '0', d)}"
+
+USE_RENESAS_GLES ?= "1"
+USE_RENESAS_OPENCL ?= "1"
 
 USE_RENESAS_GLES_r9a07g043u = "0"
 USE_RENESAS_OPENCL_r9a07g043u = "0"
@@ -28,3 +32,14 @@ MULTI_PROVIDER_WHITELIST_append_rzg2l = " virtual/libgbm "
 
 IMAGE_INSTALL_append_rzg2l = " ${@oe.utils.conditional('USE_RENESAS_OPENCL', '1', ' libopencl ', '', d)} "
 BBMASK_append_rzg2l = " recipes-graphics/PowerVR "
+
+# For RZ/V2L
+PREFERRED_PROVIDER_virtual/libgles1_rzv2l = "${@oe.utils.conditional('USE_RENESAS_GLES', '1', 'mali-library', 'mesa',d)}"
+PREFERRED_PROVIDER_virtual/libgles2_rzv2l = "${@oe.utils.conditional('USE_RENESAS_GLES', '1', 'mali-library', 'mesa',d)}"
+PREFERRED_PROVIDER_virtual/egl_rzv2l = "${@oe.utils.conditional('USE_RENESAS_GLES', '1', 'mali-library', 'mesa',d)}"
+PREFERRED_PROVIDER_virtual/libgbm_rzv2l = "${@oe.utils.conditional('USE_RENESAS_GLES', '1', 'mali-library', 'mesa',d)}"
+PREFERRED_PROVIDER_virtual/libopencl_rzv2l ?= "${@oe.utils.conditional('USE_RENESAS_OPENCL', '1', 'mali-library', '', d)}"
+MULTI_PROVIDER_WHITELIST_append_rzv2l = " virtual/libgbm "
+
+IMAGE_INSTALL_append_rzv2l = " ${@oe.utils.conditional('USE_RENESAS_OPENCL', '1', ' libopencl ', '', d)} "
+BBMASK_append_rzv2l = " recipes-graphics/PowerVR "
